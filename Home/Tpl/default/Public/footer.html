@@ -1,0 +1,21 @@
+    <div class="clear"></div>
+    <div class="footer">
+        <div class="flink"><b>友情链接：</b>
+            <volist name="link" id="vo">
+                <a href="{$vo.url}" title="{$vo.intro}" target="_blank">{$vo.title}</a>
+            </volist>        
+        </div>
+        <div class="copyright">
+            <a href="__APP__" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('{$Think.config.xpcms_url}');">设为首页</a>&nbsp;&nbsp;|&nbsp;&nbsp; 
+            <a href="javascript:window.external.addfavorite('{$Think.config.xpcms_url}','XPCMS');">加入收藏</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="mailto:{$Think.config.email}">联系站长</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="__ROOT__/admin.php" target="_blank">后台登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="__APP__/link">友情链接</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="__APP__/comment">留言反馈</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="javascript:;">{$Think.config.icp_num}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="http://www.xpcms.net" target="_blank">Powered By XPCMS {$Think.config.xpcms_version}</a> 
+        </div>
+    </div>
+</div><!--main end-->
+</body>
+</html>

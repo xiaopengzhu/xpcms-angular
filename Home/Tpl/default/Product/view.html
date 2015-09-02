@@ -1,0 +1,56 @@
+<include file="Public:header" />
+    <div class="rbox_220 fl product">
+        <div class="rbox_220_top"></div>
+        <div class="rbox_220_center">
+            <div class="title">产品分类</div>
+            <volist name="types" id="vo">
+                <a href="__APP__/product/index/cid/{$vo.id}" class="cate">{$vo.title}</a>
+                <notempty name="vo.sub">
+                    <volist name="vo.sub" id="vo2">
+                        <a href="__APP__/product/index/cid/{$vo2.id}" class="subcate">{$vo2.title}</a>
+                    </volist>
+                </notempty>
+            </volist>
+        </div>
+        <div class="rbox_220_bottom"></div>
+    </div>
+    <div class="rbox_750 fr product_view">
+        <div class="rbox_750_top"></div>
+        <div class="rbox_750_center">
+            <h2>商品简介</h2>
+            <div class="intro">
+                <div class="cover fl"><img osrc="__PUBLIC__/upload/product/{$info.cover}" id="cover" /></div>
+                <div class="title">名称：{$info.title}</div>
+                <div class="desc">简介：{$info.description}</div>
+                <div class="price">价格：{$info.price}</div>
+                <div class="clear"></div>
+            </div>
+            <h2>详细介绍</h2>
+            <div class="detail">
+            {$info.content}
+            </div>
+        </div>
+        <div class="rbox_750_bottom"></div>
+    </div>
+<script>
+$(document).ready(function(){
+    var src = $("#cover").attr("osrc");
+    var img = new Image();
+    img.src = src;
+    img.onload = function(){
+        var cover = $('#cover');
+        var w = img.width;
+        var h = img.height;
+        if(w/h>0.75) {
+            cover.attr("width", 200);
+            cover.css("margin-top", 75-h*100/w + "px");
+            cover.attr("src", src);
+        } else {
+            cover.attr("height", 150);
+            cover.css("margin-left", 100-w*75/h + "px");
+            cover.attr("src", src);
+        }
+    };
+});
+</script>
+<include file="Public:footer" />

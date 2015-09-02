@@ -1,0 +1,164 @@
+<include file="Public:header" />
+
+<div class="rbox_980 commlist">
+    <div class="rbox_980_top"></div>
+    <div class="rbox_980_center">
+        <h2>评论列表<span class="add_comment">发表留言</span></h2>
+        <div id="comment_form">
+            <div class="pop"></div>
+            <div class="left">
+                <img src="__PUBLIC__/images/head/001.jpg" id="head" imgname="001.jpg" />
+                <div class="head_wrap">
+                    <div class="prev"></div>
+                    <div class="mask">
+                        <div class="layer">
+                        <volist name="heads" id="vo">
+                        <img src="__PUBLIC__/images/head/{$vo.filename}" imgname="{$vo.filename}" />
+                        </volist>
+                        </div>
+                    </div>
+                    <div class="next"></div>
+                </div>
+            </div>
+            <div class="right">
+                <div>
+                    <label>昵称：</label>
+                    <input type="text" value="请输入昵称" class="name" id="nickname" />
+                    <label class="ml10">电子邮箱：</label>
+                    <input type="text" value="请输入邮箱" class="email" id="email" />
+                    <label class="ml10">验证码：</label>
+                    <input type="text" id="verify" maxlength="4" value="请输入验证码" />
+                    <img src="__URL__/verify" alt="点击刷新验证码" id="verifyImg" class="code" onclick="this.src+='?' + Math.random();" />
+                    <input type="hidden" id="pid" value="0" />
+                    <input type="hidden" id="aid" value="0" />
+                </div>
+                <div class="ctwarp">
+                    <label>评论内容：</label>
+                    <input type="text" id="content" class="content" />
+                    <button id="submit">提交</button>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <notempty name="comm_list">
+        <volist name="comm_list" id="vo">
+            <div class="comm_block">
+                <img class="avatar head" src="__PUBLIC__/images/head/{$vo.head}"/>
+                <div><b> {$vo.nickname} </b><span style="float: right;">{$vo.add_time|date="Y-m-d H:i:s",###}</span></div>
+                <span>{$vo.content}</span>
+                
+                <notempty name="vo.reply">
+                <volist name="vo.reply" id="reply">
+                <div class="reply_block">
+                    <img class="avatar head" src="__PUBLIC__/images/head/{$vo.head}"/>
+                    <div><b> {$reply.nickname} </b><span style="float: right;">{$reply.add_time|date="Y-m-d H:i:s",###}</span></div>
+                    <span>{$reply.content}</span>
+                </div>
+                </volist>
+                </notempty>
+            </div>
+        </volist>
+        <else/>暂无评论！</notempty>
+        <div class="page">{$page}</div>
+    </div>                
+    <div class="rbox_980_bottom"></div>
+</div><!--评论列表-->
+
+<script>
+//显示评论框
+$('.add_comment').click(function(){
+    $("#pid").val(0);
+    //如果已经显示就隐藏
+    var dom = $("#comment_form");
+    if (dom.css("display") == "none") {
+        $("#comment_form").css({height:"auto", margin:"5px 0", padding:"3px"}).slideDown();
+    } else {
+        $("#comment_form").css({height:"auto", margin:"5px 0", padding:"3px"}).slideUp();
+    }
+});
+
+$("#comment_form input").click(function(){
+    $(this).val("");
+});
+
+// 头像特效
+var left=0;
+$("body").on("click", "#head", function(){
+    if ($(".head_wrap").css("width") == "0px") {
+        $(".head_wrap").animate({width:"658"});
+    } else {
+        $(".head_wrap").animate({width:"0"});
+    }
+});
+$("body").on("click", ".head_wrap img", function(){
+    $("#head").attr({src: $(this).attr("src"), imgname:$(this).attr("imgname")});
+    $(".head_wrap").animate({width:"0"});
+});
+$("body").on("click", ".next", function(){
+    left-=600;
+    var length = (Math.floor($(".layer img").length/10))*600;
+    if (left<=-length) left = -length;
+    $(".layer").css("left", left+"px");
+});
+$("body").on("click", ".prev", function(){
+    left+=600;
+    if (left>=0) left=0;
+    $(".layer").css("left", left+"px");
+})
+
+
+//发表
+function slideUp(){
+    $("#comment_form").slideUp();
+}
+
+$("body").on("click", "#submit", function(){
+    var nickname = $("#nickname").val();
+    if (!nickname || nickname == "请输入昵称") {
+        $(".pop").html("昵称不能为空").fadeIn(300);
+        $(".pop").fadeOut(3000);
+        $("#nickname").focus();
+        return false;
+    }
+    var email = $("#email").val();
+    if (!email || email == "请输入邮箱") {
+        $(".pop").html("邮箱不能为空").fadeIn(300);
+        $(".pop").fadeOut(3000);
+        $("#email").focus();
+        return false;
+    }
+    var content = $("#content").val();
+    if (!content) {
+        $(".pop").html("内容不能为空").fadeIn(300);
+        $(".pop").fadeOut(3000);
+        $("#content").focus();
+        return false;
+    }
+    var verify = $("#verify").val();
+    if (!verify || verify == "请输入验证码") {
+        $(".pop").html("验证码不能为空").fadeIn(300);
+        $(".pop").fadeOut(3000);
+        $("#verify").focus();
+        return false;
+    }
+    $.post("__APP__/article/addComment", {
+        "head":$("#head").attr("imgname"),
+        "pid":$("#pid").val(),
+        "aid":$("#aid").val(),
+        "nickname":nickname,
+        "email":email,
+        "content":content,
+        "verify":verify,
+    }, function(msg) {
+        var msg = eval('('+msg+')');
+        $("#verifyImg").attr("src",function(){this.src+='?'+Math.random();});
+        $(".pop").html(msg.msg).fadeIn(300);
+        $(".pop").fadeOut(3000);
+        if (msg.code == 0) {
+            $("#comment_form input").val("");
+            setTimeout("slideUp()", 600);
+        }
+    });
+});
+</script>
+<include file="Public:footer" />

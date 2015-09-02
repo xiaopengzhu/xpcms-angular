@@ -1,0 +1,53 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" media="screen" href="__PUBLIC__/plugins/jplayer/jplayer.css"/><!--音乐播放CSS--> 
+
+<div id="jp_container" class="fl">
+    <div id="jquery_jplayer"></div> 
+    <div id="player_title">
+        <h1>
+        <volist name="categorys" id="vo">
+            <span><a href="__APP__/music/index/cid/{$vo.id}" id="cat_{$vo.id}">{$vo.title}</a></span>
+        </volist>
+        </h1>
+    </div>
+    <div id="playlist_list"> 
+        <div class="playlist_main">
+            <div class="playlist_wrap" >
+                <div class="playlist_cc">
+                <ul class="playlist_content" > 
+                    <volist name="list" id="vo">
+                    <li class="player" jplayer="{$vo.url}" songer="{$vo.author}" ablum="{$vo.title}" songimg="" mid="{$vo.id}">
+                        <a href="#" class="controllink" ></a>
+                        <p>{$vo.title}</p>
+                        <span style=" position:absolute; left:350px; top:5px">{$vo.author}</span>
+                        <span style=" position:absolute; left:450px; top:5px">{$vo.cid|getCategoryName}</span>
+                        <span style=" position:absolute; left:550px; top:5px">{$vo.adder_id|getUserName}</span>
+                    </li>
+                    </volist>
+                </ul>
+                </div> 
+            </div>
+        </div> 
+        <div class="playlist_footer_content">
+            <ul class="playlist_footer">
+                <li class="list_play_zhi"><a href="#">直接播放</a></li>
+                <li class="list_up_one"><a href="#">上一首</a></li>
+                <li class="list_up"><a href="#">上 翻</a></li>
+                <li class="list_down"><a href="#">下 翻</a></li>
+                <li class="list_down_one"><a href="#">下一首</a></li>
+                <li class="list_ramdom"><a href="#">随便听听</a></li>
+            </ul>
+        </div>
+    </div> 
+</div>
+
+<div id="lrc" class="fl">
+    <ul id="lrc_content">
+    </ul>
+</div>
+<script>
+var ROOT='__ROOT__'; 
+var URL='__APP__';
+</script>
+<script type="text/javascript" src="__PUBLIC__/plugins/jplayer/jplayer.js"></script><!--音乐播放JS-->    
+<include file="Public:footer" />

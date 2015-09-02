@@ -1,0 +1,38 @@
+<include file="Public:header" />
+    <div class="rbox_220 fl product">
+        <div class="rbox_220_top"></div>
+        <div class="rbox_220_center">
+            <div class="title">产品分类</div>
+            <div class="content">
+            <volist name="types" id="vo">
+                <a href="__APP__/product/index/cid/{$vo.id}" class="cate" id="cat_{$vo.id}">{$vo.title}</a>
+                <notempty name="vo.sub">
+                    <volist name="vo.sub" id="vo2">
+                        <a href="__APP__/product/index/cid/{$vo2.id}" class="subcate" id="cat_{$vo2.id}">{$vo2.title}</a>
+                    </volist>
+                </notempty>
+            </volist>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="rbox_220_bottom"></div>
+    </div>
+    
+    <div class="rbox_750 fr product_index">
+        <div class="rbox_750_top"></div>
+        <div class="rbox_750_center">
+            <volist name="list" id="vo">
+                <div class="column">
+                    <div class="img fl"><a href="__APP__/product/view/id/{$vo.id}"><img src="__PUBLIC__/upload/product/thumb_{$vo.cover}" /></a></div>
+                    <div class="name"><a href="__APP__/product/view/id/{$vo.id}">{$vo.title|mb_substr=0,58,utf8}</a></div>
+                    <div class="desc">{$vo.description}</div>
+                    <div class="price">价格：{$vo.price}</div>
+                    <div class="clear"></div>
+                </div>
+            </volist>
+            <div class="clear"></div>
+            <div class="page">{$page}</div>
+        </div>
+        <div class="rbox_750_bottom"></div>
+    </div>
+<include file="Public:footer" />

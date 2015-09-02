@@ -1,0 +1,65 @@
+<include file="Public:header" />
+<script type="text/javascript" src="__PUBLIC__/javascript/jquery.lazyload.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/highslide/highslide-with-gallery.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/highslide/highslide.css" />
+<!--[if lt IE 7]>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/highslide/highslide-ie6.css" />
+<![endif]-->
+
+<script type="text/javascript">
+$("img").lazyload({
+     placeholder : "__PUBLIC__/images/blank.jpg",       
+     effect      : "fadeIn"
+ });
+hs.graphicsDir = '__PUBLIC__/plugins/highslide/graphics/';
+hs.align = 'center';
+hs.transitions = ['expand', 'crossfade'];
+hs.fadeInOut = true;
+hs.dimmingOpacity = 0.8;
+hs.outlineType = 'rounded-white';
+hs.captionEval = 'this.thumb.alt';
+hs.marginBottom = 105; // make room for the thumbstrip and the controls
+hs.numberPosition = 'caption';
+
+// Add the slideshow providing the controlbar and the thumbstrip
+hs.addSlideshow({
+    //slideshowGroup: 'group1',
+    interval: 5000,
+    repeat: false,
+    useControls: true,
+    overlayOptions: {
+        className: 'text-controls',
+        position: 'bottom center',
+        relativeTo: 'viewport',
+        offsetY: -60
+    },
+    thumbstrip: {
+        position: 'bottom center',
+        mode: 'horizontal',
+        relativeTo: 'viewport'
+    }
+});
+</script>
+<div class="rbox_980">
+    <div class="rbox_980_top"></div>
+    <div class="rbox_980_center">
+        <h2>
+            <volist name="categorys" id="vo">
+                <a href="__APP__/photo/index/cid/{$vo.id}" id="cat_{$vo.id}" style="margin-right:20px">{$vo.title}</a>
+            </volist>
+        </h2>
+        <volist name="list" id="vo">
+            <div class="pho_block">
+            <table class="img_table"><tr><td>
+                <a href='__PUBLIC__/upload/photo/{$vo.img}' onclick="return hs.expand(this)">
+                    <img  src='__PUBLIC__/upload/photo/thumb_{$vo.img}' alt='{$vo.title}'/></a>
+            </td></tr></table>
+             <span class="title">{$vo.title}</span>
+            </div>
+        </volist>
+        <div class="clear"></div>
+        <div class="page">{$page}</div>
+    </div>
+    <div class="rbox_980_bottom"></div>
+</div>
+<include file="Public:footer" />

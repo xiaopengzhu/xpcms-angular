@@ -1,0 +1,28 @@
+<div class="rbox_220">
+<div class="rbox_220_top"></div>
+<div class="rbox_220_center">
+    <div class="submsg">
+    <h2>发表留言</h2><div id="postTemp"></div><div id="ajaxContent"></div>
+    <div class="sub_form">
+            <div>
+                <table><tr><td>
+                <img src="__URL__/verify" alt="点击刷新验证码" id="verifyImg" class="code" onclick="this.src+='?' + Math.random();" />
+                </td><td>
+                <input type="text" name="verify" id="verify" class="short" maxlength="4" />
+                </td></tr></table>
+            </div>
+            <div>
+                 <input type="text" name="adder_name" id="adder_name" class="long" />
+             </div>
+             <div>
+                 <input type="text" name="adder_email" id="adder_email" class="long" />
+             </div>
+            <div><textarea name="content" id="content"></textarea></div>
+            <div>
+                <input type="button" class="button" value="提交" onclick="return chksub()" />
+            </div>                            
+    </div>
+    </div>
+</div>
+<div class="rbox_220_bottom"></div>
+</div><!--发表留言-->

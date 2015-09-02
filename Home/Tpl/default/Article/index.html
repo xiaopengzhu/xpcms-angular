@@ -1,0 +1,37 @@
+<include file="Public:header" />
+<div class="wrap_left artlist">
+    <volist name="list" id="vo">
+    <div class="art_block">
+        <div class="art_left"></div>
+        <if condition="$vo.sort gt 0">
+        <div class="art_center art_top">
+        <else />
+        <div class="art_center">
+        </if>
+            <div class="left"><empty name="vo.img"><img src="__PUBLIC__/images/noimg.jpg" /><else/><img src="__PUBLIC__/upload/Article/{$vo.img}" /></empty></div>
+            <div class="right">
+                <h1><a href="__APP__/article/view/id/{$vo.id}">{$vo.title|msubstr=0,45,'utf-8',false}</a></h1>
+                <div>[<a href="__APP__/article/index/cid/{$vo.cid}">{$vo.cid|getCategoryName}</a>]  点击次数：{$vo.apv}次  发表时间：{$vo.add_time|date='Y-m-d H:i:s',###}</div>
+                <p>{$vo.content|strip_tags|str_replace='　', '',###|msubstr=0,300}</p>
+            </div>
+        </div>
+    </div>          
+    </volist><!--文档列表-->
+    <div class="page">{$page}</div>
+</div>
+
+<div class="wrap_right">
+    <div class="rbox_220 fr subcate">
+        <div class="rbox_220_top"></div>
+        <div class="rbox_220_center">
+            <div class="title">子分类</div> 
+            <div class="content">
+            <volist name="categorys" id="cate">
+                <a href="__APP__/article/index/cid/{$cate.id}" id="cat_{$cate.id}">{$cate.title}</a>
+            </volist>
+            </div>
+        </div>
+        <div class="rbox_220_bottom"></div>
+    </div>
+</div>
+<include file="Public:footer" />

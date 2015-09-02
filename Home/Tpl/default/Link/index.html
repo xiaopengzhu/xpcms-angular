@@ -1,0 +1,97 @@
+<include file="Public:header" />
+
+<div class="wrap_left">
+    <div class="rbox_750">
+        <div class="rbox_750_top"></div>
+        <div class="rbox_750_center">
+            <h2>{$title}</h2>
+            <volist name="list" id="vo">
+                <a href="{$vo.url}" style="margin:5px 10px">{$vo.title}</a>
+            </volist>
+        </div>
+        <div class="rbox_750_bottom"></div>
+    </div><!--链接信息-->
+</div>
+    
+<div class="wrap_right">
+    <div class="rbox_220 link">
+        <div class="rbox_220_top"></div>
+        <div class="rbox_220_center">
+            <h2>申请链接</h2>
+            <div class="sub_form">
+                <div class="pop"></div>
+                <div class="text">
+                    <input type="text" name="title" value="请输入网站名称" id="title" />
+                </div>
+                <div class="text">
+                    <input type="text" name="url" value="请输入网站URL" id="url" />
+                </div>
+                <div class="text">
+                    <input type="text" name="intro" value="请输入网站简介" id="intro" />
+                </div>
+                <div class="verify">
+                    <img src="__URL__/verify" alt="点击刷新验证码" id="verifyImg" class="code" onclick="this.src+='?' + Math.random();" />
+                    <input type="text" name="verify" id="verify" maxlength="4" value="请输入验证码" />
+                </div>
+                <div class="button">
+                    <button id="submit">提交</button>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="rbox_220_bottom"></div>
+    </div><!--发表评论-->
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".sub_form input").focus(function(){
+        $(this).val("");
+    });
+    $("#submit").click(function(){
+        var title = $("#title").val();
+        if (!title || title == "请输入网站名称") {
+            $(".pop").html("名称不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#title").focus();
+            return false;
+        }
+        var url = $("#url").val();
+        if (!url || url == "请输入网站URL") {
+            $(".pop").html("链接不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#url").focus();
+            return false;
+        }
+        var intro = $("#intro").val();
+        if (!intro || intro == "请输入网站简介") {
+            $(".pop").html("简介不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#intro").focus();
+            return false;
+        }
+        var verify = $("#verify").val();
+        if (!verify || verify == "请输入验证码") {
+            $(".pop").html("验证码不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#verify").focus();
+            return false;
+        }
+        $.post("__URL__/add", {
+                "title":title,
+                "url":url,
+                "intro":intro,
+                "verify":verify,
+            }, function(msg) {
+                var msg = eval('('+msg+')');
+                if (msg.code == 0) {
+                    $(".link input").val("");
+                }
+                $("#verifyImg").attr("src",function(){this.src+='?'+Math.random();});
+                $(".pop").html(msg.msg).fadeIn(300);
+                $(".pop").fadeOut(3000);
+        });
+    });
+});
+</script>
+<include file="Public:footer" />
