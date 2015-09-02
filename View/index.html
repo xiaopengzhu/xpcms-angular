@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app='app'>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>标题</title>
     <link rel="stylesheet" type="text/css" href="../Public/themes/default/style.css" />
+    <script src="angular-1.0.1.min.js"></script>
     <script src="controllers.js"></script>
 </head>
 <body>
-<div class="wrap" ng-controller="IndexCtrl">
+
+<div class="wrap" ng-controller="indexCtrl">
     <div class="header">
         <div class="logo"><img src="../Public/images/logo.png" /></div>
         <div class=""></div>
-       
-        <form action="__APP__/index/search" method="post" >
+        <form action="/index/search" method="post" >
         <div class="search">
             <input type="text" name="words" id="words" class="text" />
             <input type="submit" value="" class="btn" />
         </div>
         </form>
-        
     </div><!--头部-->
     
     <div class="nav">
         <ul>
             <li><a href="">首页</a></li>
             <li ng-repeat="cate in categorys">
-                <a href="">{{cate.name}}</a>
+                <a href="">{{cate.title}}</a>
             </li>
         </ul>
     </div><!--导航-->
@@ -33,12 +33,11 @@
     <div class="crumb">
         <span class="crumb_ad">
             <font color="green">想参观后台？请使用用户名：guest 密码：guest </font>
-            <font color="red"><a href="__ROOT__/admin.php">点此登录</a></font>
+            <font color="red"><a href="/admin.php">点此登录</a></font>
         </span>
-        <span>您的位置：<a href="__APP__">首页</a></span>
+        <span>您的位置：<a href="/">首页</a></span>
         <volist name="crumbs" id="vo">
         <span class="gt"></span>
-            {$vo.title}
         </volist>
     </div><!--位置-->
     
@@ -50,14 +49,12 @@
                 <div id="slide_control">
                     <ul>
                         <volist name="slide" id="vo">
-                        <li><b>{$i}</b></li>
+                        <li><b>1</b></li>
                         </volist>
                     </ul>
                 </div>
                 <div id="slide_list">
-                    <volist name="slide" id="vo">
-                    <a href="{$vo.link}" target="_blank"><img src="../Public/upload/photo/{$vo.img}" title="{$vo.title}" alt="{$vo.intro}" /></a>
-                    </volist>
+                    <a href="{{slide.link}}" target="_blank" ng-repeat="slide in data.slide"><img src="../Public/upload/photo/{{slide.img}}" title="{{slide.title}}" alt="{{slide.intro}}" /></a>
                 </div>
             </div>
         </div>
@@ -69,13 +66,11 @@
         <div class="rbox_320_center">
             <div class="top">
                 <a target="_blank" href="#"><img src="../Public/images/admin_head.png" width="50" height="50" /></a>   
-                <div class="line title"><a href="__URL__/diary" class="fr">查看更多</a>站长日记 </div>   
+                <div class="line title"><a href="/diary" class="fr">查看更多</a>站长日记 </div>   
                 <div class="line">QQ：378417067 | 交流群：22528248</div>   
             </div>
             <div class="bottom">
-                <volist name="diary" id="vo">
-                <div title="{$vo.content}"><font color="#00CCFF">※&nbsp;&nbsp;</font>{$vo.content}</div>
-                </volist>
+                <div title="{{diary.content}}" ng-repeat="diary in data.diary"><font color="#00CCFF">※&nbsp;&nbsp;</font>{{diary.content}}</div>
             </div>
         </div>
         <div class="rbox_320_bottom"></div>
@@ -90,20 +85,17 @@
     </div><!-- 视频展示 -->
     
     <div class="topart mt10">
-        <volist name="top_art" id="vo">
-        <div class="art_block">
+        <div class="art_block" ng-repeat="art in data.top_art">
             <div class="art_left"></div>
             <div class="art_center">
-            </if>
-                <div class="left"><empty name="vo.img"><img src="../Public/images/noimg.jpg" /><else/><img src="__PUBLIC__/Upload/article/{$vo.img}" /></empty></div>
+                <div class="left"><empty name="vo.img"><img src="../Public/images/noimg.jpg" /><else/><img src="../Public/Upload/article/{{art.img}}" /></empty></div>
                 <div class="right">
-                    <h1><a href="__APP__/article/view/id/{$vo.id}">{$vo.title|msubstr=0,30,'utf-8', false}</a></h1>
-                    <div>[<a href="__APP__/article/view/id/{$vo.cid}">{$vo.cid|getCategoryName}</a>] 浏览次数：{$vo.apv} 次  发表时间：{$vo.add_time|date='Y-m-d H:i:s',###}</div>
-                    <p>{$vo.content|strip_tags|str_replace='　', '',###|msubstr=0,300}</p>
+                    <h1><a href="/article/view/id/{$vo.id}">{{art.title}}</a></h1>
+                    <div>[<a href="/article/view/id/{$vo.cid}">{{art.cid}}</a>] 浏览次数：{{art.apv}} 次  发表时间：{{art.add_time}}</div>
+                    <p>{{art.content}}</p>
                 </div>
             </div>
         </div>
-        </volist>
     </div><!--文章列表-->  
     
     <div class="rbox_320 art_tab mt10 ml10">
@@ -117,48 +109,40 @@
             </div>
            
             <div id="hot_block">
-            <volist name="hot_art" id="vo">
-                <div class="line">
-                    <div title="{$vo.title}"  class="nowrap">
+                <div class="line" ng-repeat="art in data.hot_art">
+                    <div title="{{art.title}}}"  class="nowrap">
                         <div class="hot_ico"></div>
-                        <a href="__APP__/article/view/id/{$vo.id}" title="{$vo.title}">{$vo.title}</a>
+                        <a href="/article/view/id/{$vo.id}" title="{{art.title}}">{{art.title}}</a>
                     </div>
-                    <div style="color:#A1A1A1">浏览次数：{$vo.apv} 次</div>
+                    <div style="color:#A1A1A1">浏览次数：{{art.apv}} 次</div>
                 </div>
-            </volist>
             </div><!--热门-->
            
             <div id="top_block" style="display:none">
-            <volist name="new_art" id="vo">
-                <div class="line">
-                    <div title="{$vo.title}"  class="nowrap">
+                <div class="line" ng-repeat="art in new_art">
+                    <div title="{{art.title}}"  class="nowrap">
                         <div class="new_ico"></div>
-                        <a href="__APP__/article/view/id/{$vo.id}" title="{$vo.title}">{$vo.title}</a>
+                        <a href="/article/view/id/{{art.id}}" title="{{art.title}}">{{art.title}}</a>
                     </div>
-                    <div style="color:#A1A1A1">浏览次数：{$vo.apv} 次</div>
+                    <div style="color:#A1A1A1">浏览次数：{{art.apv}} 次</div>
                 </div>
-            </volist>
             </div><!--最新-->
             
             <div id="mes_block" style="display:none">
-            <volist name="new_leave" id="vo">
-                <div class="block" >   
-                    <div class="left"><img class="avatar" src="__PUBLIC__/images/head/{$vo.head}" width="32" height="32" /></div>
-                    <div class="right" title="{$vo.content}">{$vo.nickname} 说:<div class="nowrap">{$vo.content}</div></div>
+                <div class="block" ng-repeat="leave in data.new_leave">   
+                    <div class="left"><img class="avatar" src="../Public/images/head/{{leave.head}}" width="32" height="32" /></div>
+                    <div class="right" title="{{leave.content}}">{{leave.nickname}} 说:<div class="nowrap">{{leave.content}}</div></div>
                 </div>
-            </volist>
             </div><!--留言-->
             
             <div id="com_block" style="display:none">
-            <volist name="new_comment" id="vo">
-                <div class="block" >   
-                    <div class="left"><img class="avatar" src="__PUBLIC__/images/head/{$vo.head}" width="32" height="32"/></div>
+                <div class="block" ng-repeat="comment in data.new_comment" >   
+                    <div class="left"><img class="avatar" src="../Public/images/head/{{comment.head}}" width="32" height="32"/></div>
                     <div class="right">
-                        <div class="nowrap">{$vo.nickname} 评论了： <a href="__APP__/article/view/id/{$vo.aid}" style="color:#f00"  title="{$vo.aid|getArticleById}"> {$vo.aid|getArticleById}</a></div>
-                        <div class="nowrap" title="{$vo.content}" >{$vo.content}</div>
+                        <div class="nowrap">{{comment.nickname}} 评论了： <a href="/article/view/id/{{comment.aid}}" style="color:#f00"  title="{$vo.aid|getArticleById}"> {$vo.aid|getArticleById}</a></div>
+                        <div class="nowrap" title="{{comment.content}}" >{{comment.content}}</div>
                     </div>
                 </div>
-            </volist>
             </div> <!--评论-->
             
         </div>
@@ -168,9 +152,7 @@
     <div class="clear"></div>
     <div class="footer">
         <div class="flink"><b>友情链接：</b>
-            <volist name="link" id="vo">
-                <a href="{$vo.url}" title="{$vo.intro}" target="_blank">{$vo.title}</a>
-            </volist>        
+            <a href="{{link.url}}" title="{{link.intro}}" target="_blank" ng-repeat="link in links">{{link.title}}</a>
         </div>
         <div class="copyright">
             <a href="__APP__" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('{$Think.config.xpcms_url}');">设为首页</a>&nbsp;&nbsp;|&nbsp;&nbsp; 
@@ -184,5 +166,6 @@
         </div>
     </div>
 </div><!--main end-->
+
 </body>
 </html>
