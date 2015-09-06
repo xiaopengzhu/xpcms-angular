@@ -19,6 +19,27 @@ class ArticleAction extends CommonAction{
         $this->seo($type['title'], $type['keywords'], $type['description'], D('Common')->getPosition($id));
         $this->display();
     }
+    
+    public function getListData() {
+        $id = $this->_get('cid');
+        
+        $categorys = D('Common')->getSubCategorys($id);
+        $crumbs = D('Common')->getCrumbs($id);
+        
+        $map = D('Common')->getCategoryMap($id);
+        $map['status'] = array('eq',1);
+        
+        $Page = new Page(D("Article")->where($map)->count(), 8);
+        $list = D("Article")->where($map)->order('sort DESC,add_time DESC')->limit($Page->firstRow.','.$Page->listRows)->select();
+        
+        $data = array(
+            'crumbs' => $crumbs,
+            'arts' => $list,
+            'categorys' => $categorys
+        );
+        
+        exit(json_encode($data));
+    }
 
     public function view(){
         $id = $this->_get('id');

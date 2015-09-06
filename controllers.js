@@ -1,13 +1,26 @@
 var app = angular.module('app',[]);
+
 //路由设置
 app.config(function($routeProvider){
     $routeProvider.when('/', {
         templateUrl: "Views/index/index.html",
         controller: "indexCtrl",
-    }).when('/artlist/:id', {
+    }).when('/article/:id', {
         templateUrl: "Views/article/list.html",
-        controller: "listCtrl",
-    })
+        controller: "artCtrl",
+    }).when('/photo/:id', {
+        templateUrl: "Views/photo/list.html",
+        controller: "artCtrl",
+    }).when('/music/:id', {
+        templateUrl: "Views/music/list.html",
+        controller: "artlistCtrl",
+    }).when('/video/:id', {
+        templateUrl: "Views/video/list.html",
+        controller: "artlistCtrl",
+    }).when('/product/:id', {
+        templateUrl: "Views/product/list.html",
+        controller: "artlistCtrl",
+    });
 });
 
 //公共数据控制器
@@ -34,14 +47,13 @@ app.controller('indexCtrl', ["$scope", "$http", function($scope, $http) {
 }]);
 
 //文章列表控制器
-app.controller('listCtrl', ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
-    console.log($routeParams.id);
-    $http.get('/xpcms-angular/service/getArtList')
+app.controller('artCtrl', ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
+    $http.get('/xpcms-angular/service/article/getListData/id/'+$routeParams.id)
     .success(function (data) {
-        $scope.arts = data;
+        $scope.data = data;
     })
     .error(function () {
-        alert("get categorys error");
+        alert("get artlist error");
     });
 }]);
 
