@@ -1,0 +1,107 @@
+<div class="rbox_320">
+    <div class="rbox_320_top"></div>
+    <div class="rbox_320_center">
+        <div id="slide">    
+            <div id="slide_bg"></div><div id="slide_info"></div>
+            <div id="slide_control">
+                <ul>
+                    <volist name="slide" id="vo">
+                    <li><b>1</b></li>
+                    </volist>
+                </ul>
+            </div>
+            <div id="slide_list">
+                <a href="{{slide.link}}" target="_blank" ng-repeat="slide in data.slide"><img ng-src="../Public/upload/photo/{{slide.img}}" title="{{slide.title}}" alt="{{slide.intro}}" /></a>
+            </div>
+        </div>
+    </div>
+    <div class="rbox_320_bottom"></div>
+</div><!--幻灯特效-->
+
+<div class="rbox_320 ml10 diary">
+    <div class="rbox_320_top"></div>
+    <div class="rbox_320_center">
+        <div class="top">
+            <a target="_blank" href="#"><img src="../Public/images/admin_head.png" width="50" height="50" /></a>   
+            <div class="line title"><a href="/diary" class="fr">查看更多</a>站长日记 </div>   
+            <div class="line">QQ：378417067 | 交流群：22528248</div>   
+        </div>
+        <div class="bottom">
+            <div title="{{diary.content}}" ng-repeat="diary in data.diary"><font color="#00CCFF">※&nbsp;&nbsp;</font>{{diary.content}}</div>
+        </div>
+    </div>
+    <div class="rbox_320_bottom"></div>
+</div><!--站长日记-->
+
+<div class="rbox_320 ml10 fr">
+    <div class="rbox_320_top"> </div>
+    <div class="rbox_320_center">
+        {:getCode(1)}
+    </div>
+    <div class="rbox_320_bottom"></div>
+</div><!-- 视频展示 -->
+
+<div class="topart mt10">
+    <div class="art_block" ng-repeat="art in data.top_art">
+        <div class="art_left"></div>
+        <div class="art_center">
+            <div class="left"><empty name="vo.img"><img ng-src="../Public/images/noimg.jpg" /><else/><img ng-src="../Public/Upload/article/{{art.img}}" /></empty></div>
+            <div class="right">
+                <h1><a href="/article/view/id/{$vo.id}">{{art.title}}</a></h1>
+                <div>[<a href="/article/view/id/{$vo.cid}">{{art.cid}}</a>] 浏览次数：{{art.apv}} 次  发表时间：{{art.add_time}}</div>
+                <p>{{art.content}}</p>
+            </div>
+        </div>
+    </div>
+</div><!--文章列表-->  
+
+<div class="rbox_320 art_tab mt10 ml10">
+    <div class="rbox_320_top"></div>
+    <div class="rbox_320_center">
+        <div class="title">
+            <a href="javascript:;" onclick="show('hot_block')" style="font-weight:bolder">热门文章 </a> ｜ 
+            <a href="javascript:;" onclick="show('top_block')" style="color:#a1a1a1">最新文章</a> | 
+            <a href="javascript:;" onclick="show('mes_block')" style="color:#a1a1a1">最新留言</a> ｜ 
+            <a href="javascript:;" onclick="show('com_block')" style="color:#a1a1a1">最新评论</a>
+        </div>
+       
+        <div id="hot_block">
+            <div class="line" ng-repeat="art in data.hot_art">
+                <div title="{{art.title}}}"  class="nowrap">
+                    <div class="hot_ico"></div>
+                    <a href="/article/view/id/{$vo.id}" title="{{art.title}}">{{art.title}}</a>
+                </div>
+                <div style="color:#A1A1A1">浏览次数：{{art.apv}} 次</div>
+            </div>
+        </div><!--热门-->
+       
+        <div id="top_block" style="display:none">
+            <div class="line" ng-repeat="art in new_art">
+                <div title="{{art.title}}"  class="nowrap">
+                    <div class="new_ico"></div>
+                    <a href="/article/view/id/{{art.id}}" title="{{art.title}}">{{art.title}}</a>
+                </div>
+                <div style="color:#A1A1A1">浏览次数：{{art.apv}} 次</div>
+            </div>
+        </div><!--最新-->
+        
+        <div id="mes_block" style="display:none">
+            <div class="block" ng-repeat="leave in data.new_leave">   
+                <div class="left"><img class="avatar" src="../Public/images/head/{{leave.head}}" width="32" height="32" /></div>
+                <div class="right" title="{{leave.content}}">{{leave.nickname}} 说:<div class="nowrap">{{leave.content}}</div></div>
+            </div>
+        </div><!--留言-->
+        
+        <div id="com_block" style="display:none">
+            <div class="block" ng-repeat="comment in data.new_comment" >   
+                <div class="left"><img class="avatar" src="../Public/images/head/{{comment.head}}" width="32" height="32"/></div>
+                <div class="right">
+                    <div class="nowrap">{{comment.nickname}} 评论了： <a href="/article/view/id/{{comment.aid}}" style="color:#f00"  title="{$vo.aid|getArticleById}"> {$vo.aid|getArticleById}</a></div>
+                    <div class="nowrap" title="{{comment.content}}" >{{comment.content}}</div>
+                </div>
+            </div>
+        </div> <!--评论-->
+        
+    </div>
+    <div class="rbox_320_bottom"></div>
+</div><!--文章Tab-->

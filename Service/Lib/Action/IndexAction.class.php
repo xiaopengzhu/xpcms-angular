@@ -40,4 +40,17 @@ class IndexAction extends CommonAction{
         $this->seo('搜索'.$data.'结果', C('SITE_KEYWORDS'), C('SITE_DESCRIPTION'), 0);
         $this->display();
     }
+    
+    public function getData() {
+        $data = array(
+            'diary' => D('Diary')->where('status=1')->order('add_time DESC')->limit(8)->select(),
+            'top_art' => D('Article')->where('status=1')->order('sort DESC')->limit(3)->select(),
+            'slide' => D('Photo')->where('status=1 AND cid=5')->select(),
+            'hot_art' => D('Article')->where('status=1')->order('apv DESC')->limit(7)->select(),
+            'new_art' => D('Article')->where('status=1')->order('add_time DESC')->limit(7)->select(),
+            'new_leave' => D('Comment')->where('status=1 AND pid=0 AND type=0')->order('add_time DESC')->limit(7)->select(),
+            'new_comment' => D('Comment')->where('status=1 AND pid=0 AND type!=0')->order('add_time DESC')->limit(7)->select()
+        );
+        exit(json_encode($data));
+    }
 }

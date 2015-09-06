@@ -21,4 +21,3 @@ return array(
     'ICP_NUM'            =>    '沪ICP备13032873号',
     'XPCMS_VERSION'      =>    '3.0'
 );
-?>

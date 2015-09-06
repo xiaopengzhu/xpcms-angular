@@ -23,4 +23,11 @@ class ServiceAction extends CommonAction {
         $data = D('Link')->where('status=1')->order('sort DESC')->limit(7)->select();
         exit(json_encode($data));
     }
+    
+    public function getArtList() {
+        $id = $_GET['id'];
+        $data = D('Article')->where('status=1 AND cid='.$id)->order('sort DESC')->limit(7)->select();
+        exit(json_encode($data));
+    }
+    
 }

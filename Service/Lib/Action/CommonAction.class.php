@@ -36,4 +36,12 @@ class CommonAction extends Action {
     public function _empty(){
         $this->redirect("/");
     }
+    
+    public function getData() {
+        $data = array(
+            'categorys' => D('Category')->where('status=1 AND pid=0')->select(),
+            'links' => D('Link')->where('status=1')->order('sort DESC')->limit(7)->select()
+        );
+        exit(json_encode($data));;
+    }
 }
