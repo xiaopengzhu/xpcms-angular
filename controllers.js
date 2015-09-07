@@ -1,12 +1,15 @@
-var app = angular.module('app',[]);
+var app = angular.module('app', ['ngRoute']);
 
 //路由设置
 app.config(function($routeProvider){
     $routeProvider.when('/', {
         templateUrl: "Views/index/index.html",
         controller: "indexCtrl",
-    }).when('/article/:id', {
+    }).when('/article/:cid', {
         templateUrl: "Views/article/list.html",
+        controller: "artCtrl",
+    }).when('/article/view/:id', {
+        templateUrl: "Views/article/view.html",
         controller: "artCtrl",
     }).when('/photo/:id', {
         templateUrl: "Views/photo/list.html",
@@ -22,6 +25,13 @@ app.config(function($routeProvider){
         controller: "artlistCtrl",
     });
 });
+
+//过滤器
+app.filter("toHtml", ["$sce", function($sce) {
+    return function(text) {
+        return $sce.trustAsHtml(text);
+    }
+}]);
 
 //公共数据控制器
 app.controller('commonCtrl', ["$scope", "$http", function($scope, $http) {
@@ -46,17 +56,29 @@ app.controller('indexCtrl', ["$scope", "$http", function($scope, $http) {
     });
 }]);
 
-//文章列表控制器
+//文章控制器
 app.controller('artCtrl', ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
-    $http.get('/xpcms-angular/service/article/getListData/id/'+$routeParams.id)
-    .success(function (data) {
-        $scope.data = data;
-    })
-    .error(function () {
-        alert("get artlist error");
-    });
+    if ($routeParams.cid) {
+        $http.get('/xpcms-angular/service/article/getListData/cid/'+$routeParams.cid)
+        .success(function (data) {
+            $scope.data = data;
+        })
+        .error(function () {
+            alert("get artlist error");
+        });
+    } else if ($routeParams.id) {
+        $http.get('/xpcms-angular/service/article/getViewData/id/'+$routeParams.id)
+        .success(function (data) {
+            $scope.data = data;
+        })
+        .error(function () {
+            alert("get artlist error");
+        });
+    }
+}]).filter("to_html", ["$sce", function($sce) {
+    return function(text) {
+        console.log(text);
+    	//return $sce.trustAsHtml(text);
+    }
 }]);
-
-
-
 

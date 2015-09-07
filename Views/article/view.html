@@ -1,0 +1,230 @@
+<div class="wrap_left">
+    <div class="rbox_750 art_content">
+        <div class="rbox_750_top"></div>
+        <div class="rbox_750_center">
+            <h2>{{data.art.title}}</h2>
+            <p>{{data.art.content|toHtml}}</p>                    
+        </div>
+        <div class="rbox_750_bottom"></div>
+    </div><!--文章信息-->
+    
+    <div class="rbox_750 art_relate">
+        <div class="rbox_750_top"></div>
+        <div class="rbox_750_center">
+            <div class="pre"><b>上一篇：</b><notempty name="art_pre"><a href="__APP__/article/view/id/{$art_pre.id}">{$art_pre.title}</a><else/>无上一篇</notempty></div>
+            <div class="next"><b>下一篇：</b><notempty name="art_next"><a href="__APP__/article/view/id/{$art_next.id}">{$art_next.title}</a><else/>无一下篇</notempty></div>
+        </div>
+        <div class="rbox_750_bottom"></div>
+    </div><!--上一篇下一篇-->
+    
+    <div class="rbox_750 art_comment">
+        <div class="rbox_750_top"></div>
+        <div class="rbox_750_center">
+            <h2 class="comment_title">评论列表<span class="add_comment">发表评论</span></h2>
+            <div id="comment_form">
+                <div class="pop"></div>
+                <div class="left">
+                    <img src="__PUBLIC__/images/head/001.jpg" id="head" imgname="001.jpg" />
+                    <div class="head_wrap">
+                        <div class="prev"></div>
+                        <div class="mask">
+                            <div class="layer">
+                            <volist name="heads" id="vo">
+                            <img src="__PUBLIC__/images/head/{$vo.filename}" imgname="{$vo.filename}" />
+                            </volist>
+                            </div>
+                        </div>
+                        <div class="next"></div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div>
+                        <label>昵称：</label>
+                        <input type="text" value="请输入昵称" class="name" id="nickname" />
+                        <label class="ml10">电子邮箱：</label>
+                        <input type="text" value="请输入邮箱" class="email" id="email" />
+                        <label class="ml10">验证码：</label>
+                        <input type="text" id="verify" maxlength="4" value="请输入验证码" />
+                        <img src="__URL__/verify" alt="点击刷新验证码" id="verifyImg" class="code" onclick="this.src+='?' + Math.random();" />
+                        <input type="hidden" id="pid" value="0" />
+                        <input type="hidden" id="aid" value="{$info.id}" />
+                    </div>
+                    <div class="ctwarp">
+                        <label>评论内容：</label>
+                        <input type="text" id="content" class="content" />
+                        <button id="submit">提交</button>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <notempty name="comm_list">
+            <volist name="comm_list" id="vo">
+                <div class="comm_block" rel_id="{$vo.id}">
+                    <img class="avatar head" src="__PUBLIC__/images/head/{$vo.head}"/>
+                    <div><b> {$vo.nickname} </b><span style="float: right;">{$vo.add_time|date="Y-m-d H:i:s",###}</span></div>
+                    <span>{$vo.content}</span>
+                    
+                    <notempty name="vo.reply">
+                    <volist name="vo.reply" id="reply">
+                    <div class="reply_block">
+                        <img class="avatar head" src="__PUBLIC__/images/head/{$vo.head}"/>
+                        <div><b> {$reply.nickname} </b><span style="float: right;">{$reply.add_time|date="Y-m-d H:i:s",###}</span></div>
+                        <span>{$reply.content}</span>
+                    </div>
+                    </volist>
+                    </notempty>
+                </div>
+            </volist>
+            <else/>
+                <div>暂无评论！</div>
+            </notempty>
+            <div class="page">{$page}</div>
+        </div>
+        <div class="rbox_750_bottom"></div>
+    </div><!--评论列表-->
+</div>
+
+<div class="wrap_right art_recommend">
+    <div class="rbox_220 mb10">
+        <div class="rbox_220_top"></div>
+        <div class="rbox_220_center">
+            <div class="title">相关推荐</div>
+            <div class="content">
+            <volist name="art_relate" id="vo">
+                <div class="line nowrap">
+                    <a href="__APP__/article/view/id/{$vo.id}" title="{$vo.title}">{$vo.title}</a>
+                </div>
+            </volist>
+            </div>
+        </div>
+        <div class="rbox_220_bottom"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shBrushCss.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shBrushPhp.js"></script>
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/plugins/syntaxhighlighter/styles/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/plugins/syntaxhighlighter/styles/shThemeDefault.css"/>
+
+<script type="text/javascript">
+    //代码高亮
+    SyntaxHighlighter.config.clipboardSwf = '__PUBLIC__/plugins/syntaxhighlighter/scripts/clipboard.swf';
+    SyntaxHighlighter.all();
+    
+    //显示评论框
+    $('.comm_block').click(function(){
+        $("#pid").val($(this).attr("rel_id"));
+        //如果已经显示就隐藏
+        var dom = $(this).next();
+        if (dom.attr("id") =="comment_form") {
+            if (dom.css("display") == "none") {
+                $('#comment_form').css({height:"auto", margin:"5px 0", padding:"3px"}).slideDown();
+            } else {
+                $('#comment_form').css({height:"auto", margin:"5px 0", padding:"3px"}).slideUp();
+            }
+        } else {
+            $('#comment_form').css({display:"none", height:"auto", margin:"5px 0", padding:"3px"}).remove().insertAfter($(this)).slideDown();
+        }
+    });
+    $('.add_comment').click(function(){
+        $("#pid").val(0);
+        //如果已经显示就隐藏
+        var dom = $('.comment_title').next();
+        if (dom.attr("id") == "comment_form") {
+            if (dom.css("display") == "none") {
+                $("#comment_form").css({height:"auto", margin:"5px 0", padding:"3px"}).slideDown();
+            } else {
+                $("#comment_form").css({height:"auto", margin:"5px 0", padding:"3px"}).slideUp();
+            }
+        } else {
+           $('#comment_form').css({display:"none", height:"auto", margin:"5px 0", padding:"3px"}).remove().insertAfter($('.comment_title')).slideDown();
+       }
+    });
+    
+    $("body").on("click", "#comment_form input", function(){
+        $(this).val("");
+    });
+    
+    // 头像特效
+    var left=0;
+    $("body").on("click", "#head", function(){
+        if ($(".head_wrap").css("width") == "0px") {
+            $(".head_wrap").animate({width:"658"});
+        } else {
+            $(".head_wrap").animate({width:"0"});
+        }
+    });
+    $("body").on("click", ".head_wrap img", function(){
+        $("#head").attr({src: $(this).attr("src"), imgname:$(this).attr("imgname")});
+        $(".head_wrap").animate({width:"0"});
+    });
+    $("body").on("click", ".next", function(){
+        left-=600;
+        var length = (Math.floor($(".layer img").length/10))*600;
+        if (left<=-length) left = -length;
+        $(".layer").css("left", left+"px");
+    });
+    $("body").on("click", ".prev", function(){
+        left+=600;
+        if (left>=0) left=0;
+        $(".layer").css("left", left+"px");
+    })
+    
+    
+    //发表
+    function slideUp(){
+        $("#comment_form").slideUp();
+    }
+    
+    $("body").on("click", "#submit", function(){
+        var nickname = $("#nickname").val();
+        if (!nickname || nickname == "请输入昵称") {
+            $(".pop").html("昵称不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#nickname").focus();
+            return false;
+        }
+        var email = $("#email").val();
+        if (!email || email == "请输入邮箱") {
+            $(".pop").html("邮箱不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#email").focus();
+            return false;
+        }
+        var content = $("#content").val();
+        if (!content) {
+            $(".pop").html("内容不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#content").focus();
+            return false;
+        }
+        var verify = $("#verify").val();
+        if (!verify || verify == "请输入验证码") {
+            $(".pop").html("验证码不能为空").fadeIn(300);
+            $(".pop").fadeOut(3000);
+            $("#verify").focus();
+            return false;
+        }
+        $.post("__URL__/addComment", {
+            "head":$("#head").attr("imgname"),
+            "pid":$("#pid").val(),
+            "aid":$("#aid").val(),
+            "nickname":nickname,
+            "email":email,
+            "content":content,
+            "verify":verify,
+            "module":"article"
+        }, function(msg) {
+            var msg = eval('('+msg+')');
+            $("#verifyImg").attr("src",function(){this.src+='?'+Math.random();});
+            $(".pop").html(msg.msg).fadeIn(300);
+            $(".pop").fadeOut(3000);
+            if (msg.code == 0) {
+                $("#comment_form input").val("");
+                setTimeout("slideUp()", 600);
+            }
+        });
+    });
+</script>
