@@ -1,37 +1,17 @@
-<div class="wrap_left artlist">
-    <div class="art_block" ng-repeat="art in arts">
-        <div class="art_left"></div>
-        <div class="art_center">
-            <div class="left">
-                <empty name="vo.img">
-                    <img src="__PUBLIC__/images/noimg.jpg" />
-                <else/>
-                    <img src="__PUBLIC__/upload/Article/{$vo.img}" />
-                </empty>
-            </div>
-            <div class="right">
-                <h1><a href="__APP__/article/view/id/{$vo.id}">{{art.title}}</a></h1>
-                <div>[<a href="__APP__/article/index/cid/{$vo.cid}">{{art.cid}}</a>]
-                <span>  点击次数：{{art.apv}}次  发表时间：{{art.add_time}}</span>
-                </div>
-                <p>{{art.content}}</p>
-            </div>
+<div class="rbox_980">
+    <div class="rbox_980_top"></div>
+    <div class="rbox_980_center">
+        <h2>
+            <a href="#video/{{cate.id}}" id="cat_{{cate.id}}" style="margin-right:20px" ng-repeat="cate in data.categorys">{{cate.title}}</a>
+        </h2>
+        <div ng-repeat="video in data.videos">
+            <table class="video_table">
+                <tr><td style="border-bottom:#FFF solid 1px; height:97px"><a href="#video/view/{{video.id}}"><img src="./Public/upload/video/{{video.img}}" /></a></td></tr>
+                <tr><td align="center"><a href="#video/view/{{video.id}}" style="display:block; height:20px; overflow:hidden">{{video.title}}</a></td></tr>
+            </table>
         </div>
-    </div>          
-    <div class="page">{$page}</div>
-</div>
-
-<div class="wrap_right">
-    <div class="rbox_220 fr subcate">
-        <div class="rbox_220_top"></div>
-        <div class="rbox_220_center">
-            <div class="title">子分类</div> 
-            <div class="content">
-            <volist name="categorys" id="cate">
-                <a href="__APP__/article/index/cid/{$cate.id}" id="cat_{$cate.id}">{$cate.title}</a>
-            </volist>
-            </div>
-        </div>
-        <div class="rbox_220_bottom"></div>
+        <div class="clear"></div>
+        <div class="page">{$page}</div>
     </div>
+    <div class="rbox_980_bottom"></div>
 </div>

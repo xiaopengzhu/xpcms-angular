@@ -3,7 +3,7 @@
         <div class="art_left"></div>
         <div class="art_center">
             <div class="left">
-                <img src="./Pulic/upload/Article/{{art.img}}" />
+                <img src="./Public/upload/Article/{{art.img|empty:'noimg.jpg'}}" />
             </div>
             <div class="right">
                 <h1><a href="#article/view/{{art.id}}">{{art.title}}</a></h1>

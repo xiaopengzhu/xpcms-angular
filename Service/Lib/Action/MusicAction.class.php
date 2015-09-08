@@ -41,4 +41,24 @@ class MusicAction extends CommonAction {
         ksort($data);
         exit(json_encode($data));
     }
+    
+    public function getData() {
+        $id = $this->_get('cid');
+        $crumbs = D('Common')->getCrumbs($id);
+        
+        $categorys = D('Category')->where('status=1 AND pid!=0 AND module="Music"')->order('sort DESC')->select();
+        
+        $map = D('Common')->getCategoryMap($id);
+        $list = D('Music')->where($map)->order('sort DESC')->select();
+        foreach ($list as $key => $val){
+            if(!strstr($val['url'],'http')) $list[$key]['url']='__PUBLIC__/upload/music/'.$val['url'];
+        }
+        
+        $data = array(
+            'crumbs' => $crumbs,
+            'categorys' => $categorys,
+            'musics' => $list
+        );
+        exit(json_encode($data));
+    }
 }

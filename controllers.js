@@ -11,16 +11,19 @@ app.config(function($routeProvider){
     }).when('/article/view/:id', {
         templateUrl: "Views/article/view.html",
         controller: "artCtrl",
-    }).when('/photo/:id', {
+    }).when('/photo/:cid', {
         templateUrl: "Views/photo/list.html",
-        controller: "artCtrl",
-    }).when('/music/:id', {
+        controller: "photoCtrl",
+    }).when('/music/:cid', {
         templateUrl: "Views/music/list.html",
-        controller: "artlistCtrl",
-    }).when('/video/:id', {
+        controller: "musicCtrl",
+    }).when('/video/:cid', {
         templateUrl: "Views/video/list.html",
-        controller: "artlistCtrl",
-    }).when('/product/:id', {
+        controller: "videoCtrl",
+    }).when('/video/view/:id', {
+        templateUrl: "Views/video/view.html",
+        controller: "videoCtrl",
+    }).when('/product/:cid', {
         templateUrl: "Views/product/list.html",
         controller: "artlistCtrl",
     });
@@ -31,7 +34,15 @@ app.filter("toHtml", ["$sce", function($sce) {
     return function(text) {
         return $sce.trustAsHtml(text);
     }
-}]);
+}])
+.filter("empty", function() {
+   return function(text, def) {
+       if (text.length < 1)
+           return def;
+       else
+           return text;
+   }
+});
 
 //公共数据控制器
 app.controller('commonCtrl', ["$scope", "$http", function($scope, $http) {
@@ -75,10 +86,49 @@ app.controller('artCtrl', ["$scope", "$http", "$routeParams", function($scope, $
             alert("get artlist error");
         });
     }
-}]).filter("to_html", ["$sce", function($sce) {
-    return function(text) {
-        console.log(text);
-    	//return $sce.trustAsHtml(text);
+}]);
+
+//图片控制器
+app.controller('photoCtrl', ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
+    $http.get('/xpcms-angular/service/photo/getData/cid/'+$routeParams.cid)
+    .success(function (data) {
+        $scope.data = data;
+    })
+    .error(function () {
+        alert("get photo data error");
+    });
+}]);
+
+//音乐控制器
+app.controller('musicCtrl', ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
+    $http.get('/xpcms-angular/service/music/getData/cid/'+$routeParams.cid)
+    .success(function (data) {
+        $scope.data = data;
+    })
+    .error(function () {
+        alert("get music data error");
+    });
+}]);
+
+//视频控制器
+app.controller('videoCtrl', ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
+    if ($routeParams.cid) {
+        $http.get('/xpcms-angular/service/video/getListData/cid/'+$routeParams.cid)
+        .success(function (data) {
+            $scope.data = data;
+        })
+        .error(function () {
+            alert("get videolist data error");
+        });
+    } else if ($routeParams.id) {
+        $http.get('/xpcms-angular/service/video/getViewData/id/'+$routeParams.id)
+        .success(function (data) {
+            $scope.data = data;
+        })
+        .error(function () {
+            alert("get video data error");
+        });
     }
 }]);
+
 

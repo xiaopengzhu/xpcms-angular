@@ -3,7 +3,7 @@
         <div class="rbox_750_top"></div>
         <div class="rbox_750_center">
             <h2>{{data.art.title}}</h2>
-            <p>{{data.art.content|toHtml}}</p>                    
+            <p ng-bind-html="data.art.content|toHtml"></p>                    
         </div>
         <div class="rbox_750_bottom"></div>
     </div><!--文章信息-->
@@ -11,8 +11,8 @@
     <div class="rbox_750 art_relate">
         <div class="rbox_750_top"></div>
         <div class="rbox_750_center">
-            <div class="pre"><b>上一篇：</b><notempty name="art_pre"><a href="__APP__/article/view/id/{$art_pre.id}">{$art_pre.title}</a><else/>无上一篇</notempty></div>
-            <div class="next"><b>下一篇：</b><notempty name="art_next"><a href="__APP__/article/view/id/{$art_next.id}">{$art_next.title}</a><else/>无一下篇</notempty></div>
+            <div class="pre"><b>上一篇：</b><a href="#article/view/{{data.art_pre.id}}">{{data.art_pre.title|empty:'无上一篇'}}</a></div>
+            <div class="next"><b>下一篇：</b><a href="#article/view/{{data.art_next.id}}">{{data.art_next.title|empty:'无一下篇'}}</a></div>
         </div>
         <div class="rbox_750_bottom"></div>
     </div><!--上一篇下一篇-->
@@ -24,14 +24,12 @@
             <div id="comment_form">
                 <div class="pop"></div>
                 <div class="left">
-                    <img src="__PUBLIC__/images/head/001.jpg" id="head" imgname="001.jpg" />
+                    <img src="./Public/images/head/001.jpg" id="head" imgname="001.jpg" />
                     <div class="head_wrap">
                         <div class="prev"></div>
                         <div class="mask">
                             <div class="layer">
-                            <volist name="heads" id="vo">
-                            <img src="__PUBLIC__/images/head/{$vo.filename}" imgname="{$vo.filename}" />
-                            </volist>
+                            <img src="./Public/images/head/{{head.filename}}" imgname="{{haed.filename}}" ng-repeat="head in heads" />
                             </div>
                         </div>
                         <div class="next"></div>
@@ -57,27 +55,23 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            <notempty name="comm_list">
-            <volist name="comm_list" id="vo">
-                <div class="comm_block" rel_id="{$vo.id}">
-                    <img class="avatar head" src="__PUBLIC__/images/head/{$vo.head}"/>
+            <div ng-if="comm_list">
+                <div class="comm_block" rel_id="{$vo.id}" ng-repeat="comm in data.comm_list">
+                    <img class="avatar head" src="./Public/images/head/{{comm.head}}"/>
                     <div><b> {$vo.nickname} </b><span style="float: right;">{$vo.add_time|date="Y-m-d H:i:s",###}</span></div>
                     <span>{$vo.content}</span>
                     
                     <notempty name="vo.reply">
                     <volist name="vo.reply" id="reply">
                     <div class="reply_block">
-                        <img class="avatar head" src="__PUBLIC__/images/head/{$vo.head}"/>
+                        <img class="avatar head" src="./Public/images/head/{$vo.head}"/>
                         <div><b> {$reply.nickname} </b><span style="float: right;">{$reply.add_time|date="Y-m-d H:i:s",###}</span></div>
                         <span>{$reply.content}</span>
                     </div>
                     </volist>
                     </notempty>
                 </div>
-            </volist>
-            <else/>
-                <div>暂无评论！</div>
-            </notempty>
+            </div>
             <div class="page">{$page}</div>
         </div>
         <div class="rbox_750_bottom"></div>
@@ -101,16 +95,16 @@
     </div>
 </div>
 
-<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shCore.js"></script>
-<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shBrushCss.js"></script>
-<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shBrushJScript.js"></script>
-<script type="text/javascript" src="__PUBLIC__/plugins/syntaxhighlighter/scripts/shBrushPhp.js"></script>
-<link type="text/css" rel="stylesheet" href="__PUBLIC__/plugins/syntaxhighlighter/styles/shCore.css"/>
-<link type="text/css" rel="stylesheet" href="__PUBLIC__/plugins/syntaxhighlighter/styles/shThemeDefault.css"/>
+<script type="text/javascript" src="./Public/plugins/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="./Public/plugins/syntaxhighlighter/scripts/shBrushCss.js"></script>
+<script type="text/javascript" src="./Public/plugins/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="./Public/plugins/syntaxhighlighter/scripts/shBrushPhp.js"></script>
+<link type="text/css" rel="stylesheet" href="./Public/plugins/syntaxhighlighter/styles/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="./Public/plugins/syntaxhighlighter/styles/shThemeDefault.css"/>
 
 <script type="text/javascript">
     //代码高亮
-    SyntaxHighlighter.config.clipboardSwf = '__PUBLIC__/plugins/syntaxhighlighter/scripts/clipboard.swf';
+    SyntaxHighlighter.config.clipboardSwf = './Public/plugins/syntaxhighlighter/scripts/clipboard.swf';
     SyntaxHighlighter.all();
     
     //显示评论框

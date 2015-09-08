@@ -1,0 +1,39 @@
+<div class="wrap_left">
+    <div class="rbox_750">
+        <div class="rbox_750_top"></div>
+        <div class="rbox_750_center">
+            <h2>视频标题：{{data.video.title}}</h2>
+            <present name="local">
+                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+                codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="728" height="380">
+                <param name="movie" value="./Public/plugins/flvplayer/Flvplayer.swf">
+                <param name="quality" value="high">
+                <param name="wmode" value="transparent">
+                <param name="allowFullScreen" value="true" />
+                <param name="FlashVars" value="vcastr_file=./Public/upload/video/{{data.video.url}}&IsAutoPlay=0" />    
+                <embed src="./Public/plugins/flvplayer/Flvplayer.swf" 
+                allowFullScreen="true" 
+                FlashVars="vcastr_file=./Public/upload/video/{{data.video.url}}&IsAutoPlay=0" 
+                quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" 
+                type="application/x-shockwave-flash" 
+                width="728" height="380" wmode="transparent">
+                </embed>
+                </object>
+            <else/>
+                <embed src="{{data.video.url}}" quality="high" width="728" height="380" align="middle" 
+                allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode="transparent">
+                </embed>
+            </present>
+        </div>
+        <div class="rbox_750_bottom"></div>
+    </div><!--视频播放-->
+</div>
+<div class="wrap_right">
+    <div class="rbox_220">
+    <div class="rbox_220_top"></div>
+    <div class="rbox_220_center">
+        <div class="title">用户评论</div>
+    </div>
+    <div class="rbox_220_bottom"></div>
+    </div>
+</div>

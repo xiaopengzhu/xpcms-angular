@@ -1,37 +1,47 @@
-<div class="wrap_left artlist">
-    <div class="art_block" ng-repeat="art in arts">
-        <div class="art_left"></div>
-        <div class="art_center">
-            <div class="left">
-                <empty name="vo.img">
-                    <img src="__PUBLIC__/images/noimg.jpg" />
-                <else/>
-                    <img src="__PUBLIC__/upload/Article/{$vo.img}" />
-                </empty>
+<link rel="stylesheet" type="text/css" media="screen" href="./Public/plugins/jplayer/jplayer.css"/><!--音乐播放CSS--> 
+
+<div id="jp_container" class="fl">
+    <div id="jquery_jplayer"></div> 
+    <div id="player_title">
+        <h1>
+            <span><a href="#music/{{cate.id}}" id="cat_{{cate.id}}" ng-repeat="cate in data.categorys">{{cate.title}}</a></span>
+        </h1>
+    </div>
+    <div id="playlist_list"> 
+        <div class="playlist_main">
+            <div class="playlist_wrap" >
+                <div class="playlist_cc">
+                <ul class="playlist_content" > 
+                    <li class="player" jplayer="{{music.url}}" songer="{{music.author}}" ablum="{[music.title}}" songimg="" mid="{{music.id}}" ng-repeat="music in data.musics">
+                        <a href="#" class="controllink" ></a>
+                        <p>{{music.title}}</p>
+                        <span style=" position:absolute; left:350px; top:5px">{{music.author}}</span>
+                        <span style=" position:absolute; left:450px; top:5px">{{music.cid}}</span>
+                        <span style=" position:absolute; left:550px; top:5px">{{music.adder_id}}</span>
+                    </li>
+                </ul>
+                </div> 
             </div>
-            <div class="right">
-                <h1><a href="__APP__/article/view/id/{$vo.id}">{{art.title}}</a></h1>
-                <div>[<a href="__APP__/article/index/cid/{$vo.cid}">{{art.cid}}</a>]
-                <span>  点击次数：{{art.apv}}次  发表时间：{{art.add_time}}</span>
-                </div>
-                <p>{{art.content}}</p>
-            </div>
+        </div> 
+        <div class="playlist_footer_content">
+            <ul class="playlist_footer">
+                <li class="list_play_zhi"><a href="#">直接播放</a></li>
+                <li class="list_up_one"><a href="#">上一首</a></li>
+                <li class="list_up"><a href="#">上 翻</a></li>
+                <li class="list_down"><a href="#">下 翻</a></li>
+                <li class="list_down_one"><a href="#">下一首</a></li>
+                <li class="list_ramdom"><a href="#">随便听听</a></li>
+            </ul>
         </div>
-    </div>          
-    <div class="page">{$page}</div>
+    </div> 
 </div>
 
-<div class="wrap_right">
-    <div class="rbox_220 fr subcate">
-        <div class="rbox_220_top"></div>
-        <div class="rbox_220_center">
-            <div class="title">子分类</div> 
-            <div class="content">
-            <volist name="categorys" id="cate">
-                <a href="__APP__/article/index/cid/{$cate.id}" id="cat_{$cate.id}">{$cate.title}</a>
-            </volist>
-            </div>
-        </div>
-        <div class="rbox_220_bottom"></div>
-    </div>
+<div id="lrc" class="fl">
+    <ul id="lrc_content">
+    </ul>
 </div>
+<script>
+var ROOT='/'; 
+var URL='#music/';
+</script>
+<script type="text/javascript" src="./Public/plugins/jplayer/jplayer.js"></script><!--音乐播放JS-->    
