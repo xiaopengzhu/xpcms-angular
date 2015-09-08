@@ -6,7 +6,7 @@
         </h2>
         <div ng-repeat="video in data.videos">
             <table class="video_table">
-                <tr><td style="border-bottom:#FFF solid 1px; height:97px"><a href="#video/view/{{video.id}}"><img src="./Public/upload/video/{{video.img}}" /></a></td></tr>
+                <tr><td style="border-bottom:#FFF solid 1px; height:97px"><a href="#video/view/{{video.id}}"><img ng-src="./Public/upload/video/{{video.img}}" /></a></td></tr>
                 <tr><td align="center"><a href="#video/view/{{video.id}}" style="display:block; height:20px; overflow:hidden">{{video.title}}</a></td></tr>
             </table>
         </div>

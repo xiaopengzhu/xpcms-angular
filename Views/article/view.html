@@ -24,12 +24,12 @@
             <div id="comment_form">
                 <div class="pop"></div>
                 <div class="left">
-                    <img src="./Public/images/head/001.jpg" id="head" imgname="001.jpg" />
+                    <img ng-src="./Public/images/head/001.jpg" id="head" imgname="001.jpg" />
                     <div class="head_wrap">
                         <div class="prev"></div>
                         <div class="mask">
                             <div class="layer">
-                            <img src="./Public/images/head/{{head.filename}}" imgname="{{haed.filename}}" ng-repeat="head in heads" />
+                            <img ng-src="./Public/images/head/{{head.filename}}" imgname="{{haed.filename}}" ng-repeat="head in heads" />
                             </div>
                         </div>
                         <div class="next"></div>
@@ -57,14 +57,14 @@
             </div>
             <div ng-if="comm_list">
                 <div class="comm_block" rel_id="{$vo.id}" ng-repeat="comm in data.comm_list">
-                    <img class="avatar head" src="./Public/images/head/{{comm.head}}"/>
+                    <img class="avatar head" ng-src="./Public/images/head/{{comm.head}}"/>
                     <div><b> {$vo.nickname} </b><span style="float: right;">{$vo.add_time|date="Y-m-d H:i:s",###}</span></div>
                     <span>{$vo.content}</span>
                     
                     <notempty name="vo.reply">
                     <volist name="vo.reply" id="reply">
                     <div class="reply_block">
-                        <img class="avatar head" src="./Public/images/head/{$vo.head}"/>
+                        <img class="avatar head" ng-src="./Public/images/head/{$vo.head}"/>
                         <div><b> {$reply.nickname} </b><span style="float: right;">{$reply.add_time|date="Y-m-d H:i:s",###}</span></div>
                         <span>{$reply.content}</span>
                     </div>

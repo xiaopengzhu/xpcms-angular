@@ -1,28 +1,28 @@
 <?php
 class ProductAction extends CommonAction {
-
-    public function index(){
+    
+    public function getListData() {
         $id = $this->_get('cid');
         $this->assign('crumbs', D('Common')->getCrumbs($id));
         
-        $category = D('Category')->where('status=1')->find($id); 
-        $this->seo($category['title'], $category['keywords'], $category['description'], D('Common')->getPosition($id));
-        
-        $types = D('Product')->geProductCategorys();
-        $this->assign('types',$types);
+        $categorys = D('Product')->geProductCategorys();
         
         $map = D('Common')->getCategoryMap($id);
         $map['status'] = array('eq',1);
-        $count = D("Product")->where($map)->count(); 
+        $count = D("Product")->where($map)->count();
         $Page = new Page($count,35);
         $list = D('Product')->where($map)->order('sort DESC,add_time DESC')->limit($Page->firstRow.','.$Page->listRows)->select();
-        $this->assign('page', $Page->show());
-        $this->assign('list',$list);
         
-        $this->display();
+        $data = array(
+            'crumbs' => $crumbs,
+            'categorys' => $categorys,
+            'products' => $list
+        );
+        
+        exit(json_encode($data));
     }
-
-    public function view(){
+    
+    public function getViewData() {
         $id = $this->_get('id');
         $info = D('Product')->where('status=1')->find($id);
         $this->assign('crumbs', D('Common')->getCrumbs($info['cid'], $info['id']));
@@ -30,9 +30,14 @@ class ProductAction extends CommonAction {
         if(!strstr($info['url'],'http'))$this->assign('local',true);
         $this->assign('info',$info);
         
-        $types = D('Product')->geProductCategorys();
-        $this->assign('types', $types);
+        $categorys = D('Product')->geProductCategorys();
         
-        $this->display();
+        $data = array(
+            'product' => $info,
+            'categorys' => $categorys
+        );
+        
+        exit(json_encode($data));
     }
+
 }

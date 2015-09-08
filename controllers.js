@@ -25,7 +25,10 @@ app.config(function($routeProvider){
         controller: "videoCtrl",
     }).when('/product/:cid', {
         templateUrl: "Views/product/list.html",
-        controller: "artlistCtrl",
+        controller: "productCtrl",
+    }).when('/product/view/:id', {
+        templateUrl: "Views/product/view.html",
+        controller: "productCtrl",
     });
 });
 
@@ -131,4 +134,24 @@ app.controller('videoCtrl', ["$scope", "$http", "$routeParams", function($scope,
     }
 }]);
 
-
+//产品控制器
+app.controller('productCtrl', ["$scope", "$http", "$routeParams", function($scope, $http, $routeParams) {
+    if ($routeParams.cid) {
+        $http.get('/xpcms-angular/service/product/getListData/cid/'+$routeParams.cid)
+        .success(function (data) {
+            $scope.data = data;
+        })
+        .error(function () {
+            alert("get productlist data error");
+        });
+    } else if ($routeParams.id) {
+        $http.get('/xpcms-angular/service/product/getViewData/id/'+$routeParams.id)
+        .success(function (data) {
+        	console.log(data);
+            $scope.data = data;
+        })
+        .error(function () {
+            alert("get product data error");
+        });
+    }
+}]);

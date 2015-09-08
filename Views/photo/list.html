@@ -48,7 +48,7 @@ hs.addSlideshow({
             <div class="pho_block" ng-repeat="photo in data.photos">
             <table class="img_table"><tr><td>
                 <a href='./Public/upload/photo/{{photo.img}}' onclick="return hs.expand(this)">
-                    <img  src='./Public/upload/photo/thumb_{{photo.img}}' alt='{{photo.title}}'/></a>
+                    <img  ng-src='./Public/upload/photo/thumb_{{photo.img}}' alt='{{photo.title}}'/></a>
             </td></tr></table>
              <span class="title">{{photo.title}}</span>
             </div>

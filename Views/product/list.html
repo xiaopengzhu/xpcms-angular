@@ -1,37 +1,29 @@
-Public<div class="wrap_left artlist">
-    <div class="art_block" ng-repeat="art in arts">
-        <div class="art_left"></div>
-        <div class="art_center">
-            <div class="left">
-                <empty name="vo.img">
-                    <img src="__PUBLIC__/images/noimg.jpg" />
-                <else/>
-                    <img src="__PUBLIC__/upload/Article/{$vo.img}" />
-                </empty>
-            </div>
-            <div class="right">
-                <h1><a href="__APP__/article/view/id/{$vo.id}">{{art.title}}</a></h1>
-                <div>[<a href="__APP__/article/index/cid/{$vo.cid}">{{art.cid}}</a>]
-                <span>  点击次数：{{art.apv}}次  发表时间：{{art.add_time}}</span>
-                </div>
-                <p>{{art.content}}</p>
-            </div>
+<div class="rbox_220 fl product">
+    <div class="rbox_220_top"></div>
+    <div class="rbox_220_center">
+        <div class="title">产品分类</div>
+        <div class="content">
+            <a href="#product/{{cate.id}}" class="cate" id="cat_{{cate.id}}" ng-repeat="cate in data.categorys">{{cate.title}}
+                 <a href="#product/{{sub.id}}" class="subcate" id="cat_{{sub.id}}" ng-repeat="sub in cate.sub">{{sub.title}}</a>
+            </a>
         </div>
-    </div>          
-    <div class="page">{$page}</div>
+        <div class="clear"></div>
+    </div>
+    <div class="rbox_220_bottom"></div>
 </div>
 
-<div class="wrap_right">
-    <div class="rbox_220 fr subcate">
-        <div class="rbox_220_top"></div>
-        <div class="rbox_220_center">
-            <div class="title">子分类</div> 
-            <div class="content">
-            <volist name="categorys" id="cate">
-                <a href="__APP__/article/index/cid/{$cate.id}" id="cat_{$cate.id}">{$cate.title}</a>
-            </volist>
+<div class="rbox_750 fr product_index">
+    <div class="rbox_750_top"></div>
+    <div class="rbox_750_center">
+            <div class="column" ng-repeat="product in data.products">
+                <div class="img fl"><a href="#product/view/{{product.id}}"><img ng-src="./Public/upload/product/thumb_{{product.cover}}" /></a></div>
+                <div class="name"><a href="#product/view/{{product.id}}">{{product.title}}</a></div>
+                <div class="desc">{{product.description}}</div>
+                <div class="price">价格：{{product.price}}</div>
+                <div class="clear"></div>
             </div>
-        </div>
-        <div class="rbox_220_bottom"></div>
+        <div class="clear"></div>
+        <div class="page">{$page}</div>
     </div>
+    <div class="rbox_750_bottom"></div>
 </div>
