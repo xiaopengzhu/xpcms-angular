@@ -1,18 +1,6 @@
 <?php
 class IndexAction extends CommonAction{
 
-    public function index(){
-        $this->assign('diary',D('Diary')->where('status=1')->order('add_time DESC')->limit(8)->select());
-        $this->assign('top_art', D('Article')->where('status=1')->order('sort DESC')->limit(3)->select());
-        $this->assign('slide', D('Photo')->where('status=1 AND cid=5')->select());
-        $this->assign('hot_art', D('Article')->where('status=1')->order('apv DESC')->limit(7)->select());
-        $this->assign('new_art', D('Article')->where('status=1')->order('add_time DESC')->limit(7)->select());
-        $this->assign('new_leave', D('Comment')->where('status=1 AND pid=0 AND type=0')->order('add_time DESC')->limit(7)->select());
-        $this->assign('new_comment', D('Comment')->where('status=1 AND pid=0 AND type!=0')->order('add_time DESC')->limit(7)->select());
-        $this->seo(C('SITE_NAME'), C('SITE_KEYWORDS'), C('SITE_DESCRIPTION'), 0);
-        $this->display();
-    }
-
     public function diary(){
         $count = D("Diary")->count(); 
         $Page = new Page($count,12);
@@ -49,7 +37,8 @@ class IndexAction extends CommonAction{
             'hot_art' => D('Article')->where('status=1')->order('apv DESC')->limit(7)->select(),
             'new_art' => D('Article')->where('status=1')->order('add_time DESC')->limit(7)->select(),
             'new_leave' => D('Comment')->where('status=1 AND pid=0 AND type=0')->order('add_time DESC')->limit(7)->select(),
-            'new_comment' => D('Comment')->where('status=1 AND pid=0 AND type!=0')->order('add_time DESC')->limit(7)->select()
+            'new_comment' => D('Comment')->where('status=1 AND pid=0 AND type!=0')->order('add_time DESC')->limit(7)->select(),
+            'video' => D('Code')->where('status=1')->find(1)
         );
         exit(json_encode($data));
     }

@@ -47,6 +47,20 @@ app.filter("toHtml", ["$sce", function($sce) {
    }
 });
 
+//lazy load JS
+app.directive('script', function($parse, $rootScope, $compile) {
+    return {
+        restrict: 'E',
+        terminal: true,
+        link: function(scope, element, attr) {
+            if (attr.ngSrc) {
+                 var domElem = '<script src="'+attr.ngSrc+'" async defer></script>';
+                 $(element).append($compile(domElem)(scope));
+            }
+        }
+    };
+});
+
 //公共数据控制器
 app.controller('commonCtrl', ["$scope", "$http", function($scope, $http) {
     $http.get('/xpcms-angular/service/common/getData')
@@ -147,7 +161,7 @@ app.controller('productCtrl', ["$scope", "$http", "$routeParams", function($scop
     } else if ($routeParams.id) {
         $http.get('/xpcms-angular/service/product/getViewData/id/'+$routeParams.id)
         .success(function (data) {
-        	console.log(data);
+            console.log(data);
             $scope.data = data;
         })
         .error(function () {

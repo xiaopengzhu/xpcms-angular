@@ -1,24 +1,5 @@
 <?php
-class ArticleAction extends CommonAction{
-
-    public function index(){
-        $id = $this->_get('cid');
-        
-        $categorys = D('Common')->getSubCategorys($id);
-        $this->assign('crumbs', D('Common')->getCrumbs($id));
-        
-        $map = D('Common')->getCategoryMap($id);
-        $map['status'] = array('eq',1);
-        
-        $Page = new Page(D("Article")->where($map)->count(), 8);
-        $list = D("Article")->where($map)->order('sort DESC,add_time DESC')->limit($Page->firstRow.','.$Page->listRows)->select();
-
-        $this->assign('list', $list);
-        $this->assign('page', $Page->show());
-        $this->assign('categorys', $categorys);
-        $this->seo($type['title'], $type['keywords'], $type['description'], D('Common')->getPosition($id));
-        $this->display();
-    }
+class ArticleAction extends Action{
     
     public function getListData() {
         $id = $this->_get('cid');
@@ -77,42 +58,6 @@ class ArticleAction extends CommonAction{
         );
         
         exit(json_encode($data));
-    }
-
-    public function view(){
-        $id = $this->_get('id');
-        D('Article')->where("id=".$id)->setInc('apv',1);
-        
-        $info = D('Article')->where("id=$id AND status=1")->find();
-        $this->assign('info', $info);
-        $this->assign('crumbs', D('Common')->getCrumbs($info['cid'], $info['id']));
-        $this->seo($info['title'], $info['keywords'], $info['description'], D('Common')->getPosition($info['cid']));
-        
-        $art_pre = D('Article')->where("id<$id AND status=1")->order('id DESC')->field('id,title,apv')->find();
-        $this->assign('art_pre', $art_pre);
-        
-        $art_next = D('Article')->where("id>$id AND status=1")->order('id')->field('id,title,apv')->find();
-        $this->assign('art_next', $art_next);
-        
-        $art_relate = D('Article')->where("cid=".$info['cid'])->order('id DESC')->limit(5)->field('id,title')->select();
-        $this->assign('art_relate', $art_relate); 
-        
-        $map = array(
-            'module' => 'article',
-            'aid' => $id,
-            'status' => 1,
-            'pid' => 0
-        );
-        $Page = new Page(D('Comment')->where($map)->count(), 8);
-        $comment = D('Comment')->relation(true)->where($map)->order('add_time DESC')->limit($Page->firstRow.','.$Page->listRows)->select();
-        $this->assign('page', $Page->show());
-        $this->assign('comm_list', $comment);
-        
-        import("@.ORG.Util.Dir");
-        $path = dirname(APP_PATH)."/Public/images/head";
-        $dir = new Dir($path);
-        $this->assign('heads', $dir->_values); 
-        $this->display();
     }
 
     public function addComment(){

@@ -12,7 +12,7 @@
             <div class="playlist_wrap" >
                 <div class="playlist_cc">
                 <ul class="playlist_content" > 
-                    <li class="player" jplayer="{{music.url}}" songer="{{music.author}}" ablum="{[music.title}}" songimg="" mid="{{music.id}}" ng-repeat="music in data.musics">
+                    <li class="player" jplayer="{{music.url}}" songer="{{music.author}}" ablum="{{music.title}}" songimg="" mid="{{music.id}}" ng-repeat="music in data.musics">
                         <a href="#" class="controllink" ></a>
                         <p>{{music.title}}</p>
                         <span style=" position:absolute; left:350px; top:5px">{{music.author}}</span>
@@ -37,11 +37,7 @@
 </div>
 
 <div id="lrc" class="fl">
-    <ul id="lrc_content">
-    </ul>
+    <ul id="lrc_content"></ul>
 </div>
-<script>
-var ROOT='/'; 
-var URL='#music/';
-</script>
-<script type="text/javascript" src="./Public/plugins/jplayer/jplayer.js"></script><!--音乐播放JS-->    
+
+<script type="text/javascript" ng-src="./Public/plugins/jplayer/jplayer.js"></script><!--音乐播放JS-->    

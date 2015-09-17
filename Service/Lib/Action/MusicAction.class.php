@@ -13,13 +13,12 @@ class MusicAction extends CommonAction {
         $map = D('Common')->getCategoryMap($id);
         $list = D('Music')->where($map)->order('sort DESC')->select();
         foreach ($list as $key => $val){
-            if(!strstr($val['url'],'http')) $list[$key]['url']='__PUBLIC__/upload/music/'.$val['url'];
+            if(!strstr($val['url'],'http')) $list[$key]['url']='./Public/upload/music/'.$val['url'];
         }
         $this->assign('list', $list);
         
         $this->display();
     }
-    
     
     public function getLyrics($id){
         $lyrics = D("Music")->where("id=".$id)->getField("lyrics");
@@ -51,7 +50,7 @@ class MusicAction extends CommonAction {
         $map = D('Common')->getCategoryMap($id);
         $list = D('Music')->where($map)->order('sort DESC')->select();
         foreach ($list as $key => $val){
-            if(!strstr($val['url'],'http')) $list[$key]['url']='__PUBLIC__/upload/music/'.$val['url'];
+            if(!strstr($val['url'],'http')) $list[$key]['url']='./Public/upload/music/'.$val['url'];
         }
         
         $data = array(

@@ -16,13 +16,6 @@ class CommonAction extends Action {
         Image::buildImageVerify(4, 1, $type);
     }
 
-    public function seo($title, $keywords, $description, $positioin){
-        $this->assign('title', $title);
-        $this->assign('keywords', $keywords);
-        $this->assign('description', $description);
-        $this->assign('position', $positioin);
-    }
-
     public function download(){
         $filename = $_SERVER[DOCUMENT_ROOT].__ROOT__.'/Public/upload/download/'.$this->_get('filename');
         header("Content-type: application/octet-stream");  
